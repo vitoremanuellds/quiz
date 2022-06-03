@@ -1,0 +1,101 @@
+// diagrama de classes de exemplo
+// duas barras definem comentários
+
+QuizApplication
+---
+---
+---
+
+
+
+QuizController
+---
+- quizService : QuizService
+---
++ createQuiz(title : String) : QuizDTO
++ addQuestionToQuiz(quizId : Long, stem : String, numberOfCorrectAnswers : int, allowSelectionOfMultipleChoices : boolean, onlyRightWithCompleteAnswers : boolean) : QuestionDTO
++ addAnswerToQuestion(questionId : Long, content : String) : AnswerDTO
+---
+
+
+
+QuizService
+composes QuizController
+---
+- quizRepository : QuizRepository
+- questionRepository : QuestionRepository
+- answerRepository : answerRepository
+---
+---
+
+
+
+Quiz
+aggregates QuizService, QuizRepository
+---
+- id : Long
+- title : String
+- questionsId : List<Long>
+--- 
++ Quiz(title : String)
++ addQuestion(questionId : Long) : Long
++ delQuestion(questionId: Long) : Long
+---
+
+
+
+
+Question
+aggregates QuizService, QuestionRepository
+---
+
+- id : Long
+// Use annotations @ElementCollection, @CollectionTable(name = "", JoinColumns=@JoinColumn(name="")) 
+- stem : String
+- rightAnswers : List<Long>
+- wrongAnswers : List<Long>
+- numberOfCorrectAnswers : int
+- allowSelectionOfMultipleChoices : boolean
+- onlyRIghtWithCompleteAnswers : boolean
+
+---
+
++ Question(stem : String, numberOfCorrectAnswers : int, allowSelectionOfMultipleChoices : boolean, onlyRightWithCompleteAnswers : boolean)
++ addRightAnswer(id : Long) : Long
++ addWrongAnswer(id : Long) : Long
++ delRightAnswer(id : Long) : boolean
++ delWrongAnswer(id : Long) : boolean
+---
+
+
+
+Answer
+aggregates QuizService, AnswerRepository
+---
+- id : Long
+- questionId: Long
+- content : String
+---
++ Answer(questionId : Long, content : String)
+---
+
+
+
+AnswerRepository
+---
+---
+---
+
+
+
+QuestionRepository
+---
+---
+---
+
+
+
+QuizRepository
+---
+---
+---
