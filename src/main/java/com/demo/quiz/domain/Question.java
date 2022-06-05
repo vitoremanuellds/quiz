@@ -51,13 +51,13 @@ public class Question {
     @ElementCollection
     @CollectionTable(name = "right_answers", joinColumns = @JoinColumn(name = "question_id"))
     @Column(name = "right_answer")
-    private Set<Long> rightAnswers;
+    private Set<String> rightAnswers;
     
 
     @ElementCollection
     @CollectionTable(name = "wrong_answers", joinColumns = @JoinColumn(name = "question_id"))
     @Column(name = "wrong_answer")
-    private Set<Long> wrongAnswers;
+    private Set<String> wrongAnswers;
 
     public Question(String stem, int numberOfCorrectAnswers, boolean allowSelectionOfMultipleChoices, boolean onlyRightWithCompleteAnswers, double weightOfQuestion) {
 
@@ -67,29 +67,29 @@ public class Question {
         this.onlyRightWithCompleteAnswers = onlyRightWithCompleteAnswers;
         this.weightOfQuestion = weightOfQuestion;
 
-        this.rightAnswers = new HashSet<Long>();
-        this.wrongAnswers = new HashSet<Long>();
+        this.rightAnswers = new HashSet<String>();
+        this.wrongAnswers = new HashSet<String>();
 
     }
 
 
-    public boolean addRightAnswer(Long answerId) {
-        return this.rightAnswers.add(answerId);
+    public boolean addRightAnswer(String answer) {
+        return this.rightAnswers.add(answer);
     }
 
 
-    public boolean addWrongAnswer(Long answerId) {
-        return this.wrongAnswers.add(answerId);
+    public boolean addWrongAnswer(String answer) {
+        return this.wrongAnswers.add(answer);
     }
 
 
-    public boolean delRightAnswer(Long answerId) {
-        return this.rightAnswers.removeIf(aId -> aId.equals(answerId));
+    public boolean delRightAnswer(String answer) {
+        return this.rightAnswers.removeIf(a -> a.equals(answer));
     }
 
 
-    public boolean delWrongAnswer(Long answerId) {
-        return this.wrongAnswers.removeIf(aId -> aId.equals(answerId));
+    public boolean delWrongAnswer(String answer) {
+        return this.wrongAnswers.removeIf(a -> a.equals(answer));
     }
 
 
