@@ -6,25 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.quiz.domain.Answer;
-import com.demo.quiz.domain.Question;
-import com.demo.quiz.domain.Quiz;
 import com.demo.quiz.dto.AnswerDTO;
 import com.demo.quiz.dto.NewQuestionDTO;
-import com.demo.quiz.dto.QuestionDTO;
 import com.demo.quiz.dto.QuizDTO;
 import com.demo.quiz.dto.NewQuizDTO;
 import com.demo.quiz.exceptions.QuestionNotFoundException;
 import com.demo.quiz.exceptions.QuizNotFoundException;
-import com.demo.quiz.repositories.QuestionRepository;
-import com.demo.quiz.repositories.QuizRepository;
 import com.demo.quiz.services.QuizService;
-import com.demo.quiz.settings.AnswerMapper;
-import com.demo.quiz.settings.QuestionMapper;
-import com.demo.quiz.settings.QuizMapper;
 
 import io.swagger.annotations.Api;
-import io.swagger.models.Response;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -96,5 +86,8 @@ public class QuizController {
         }
 
     }
+
+
+
 
 }

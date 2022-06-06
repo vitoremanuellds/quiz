@@ -1,6 +1,5 @@
 package com.demo.quiz.settings;
 
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
