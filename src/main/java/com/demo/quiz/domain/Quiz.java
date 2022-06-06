@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -32,23 +33,14 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     
     @Column(name = "title")
     private String title;
 
     
-    //@ElementCollection(fetch = FetchType.EAGER)
-    //@CollectionTable(name = "quizzes", joinColumns = @JoinColumn(name = "id"))
-    //@CollectionTable(name = "quizzes")
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "question")
-    private List<Question> questions;
-
-
-    public Quiz(String title) {
-        this.title = title;
-        this.questions = new ArrayList<>();
-    }
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "quiz")
+    private Set<Question> questions;
 
     
     public boolean addQuestion(Question question) {
@@ -58,6 +50,16 @@ public class Quiz {
 
     public boolean delQuestion(Question question) {
         return this.questions.removeIf(qId -> qId.equals(question));
+    }
+
+    public String toString() {
+        String r = ""; 
+
+        for (Question q : this.questions) {
+            r += q.toString();
+        }
+        
+        return "Title + " + r;
     }
 
 }

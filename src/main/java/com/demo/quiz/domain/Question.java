@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,42 +40,22 @@ public class Question {
     private String stem;
 
 
-    @Column(name = "number_of_correct_answers")
-    private int numberOfCorrectAnswers;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "question")
+    private Set<Answer> answers;
 
-    @Column(name = "allow_selection_of_multiple_choices")
-    private boolean allowSelectionOfMultipleChoices;
 
-    @Column(name = "only_rigt_with_complete_answers")
-    private boolean onlyRightWithCompleteAnswers;
-
-    @Column(name = "weight_of_question")
-    private double weightOfQuestion;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "choices")
-    private List<Answer> choices;
-
-    public Question(String stem, int numberOfCorrectAnswers, boolean allowSelectionOfMultipleChoices, boolean onlyRightWithCompleteAnswers, double weightOfQuestion) {
-
-        this.stem = stem;
-        this.numberOfCorrectAnswers = numberOfCorrectAnswers;
-        this.allowSelectionOfMultipleChoices = allowSelectionOfMultipleChoices;
-        this.onlyRightWithCompleteAnswers = onlyRightWithCompleteAnswers;
-        this.weightOfQuestion = weightOfQuestion;
-
-        this.choices = new ArrayList<Answer>();
-
-    }
-
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "quiz_id", nullable = false)
+    private Quiz quiz;
+    
 
     public boolean addAnswer(Answer answer) {
-        return this.choices.add(answer);
+        return this.answers.add(answer);
     }
 
 
     public boolean delAnswer(Answer answer) {
-        return this.choices.remove(answer);
+        return this.answers.remove(answer);
     }
     
 
