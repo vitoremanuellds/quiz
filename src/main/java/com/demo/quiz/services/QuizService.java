@@ -103,4 +103,15 @@ public class QuizService {
         return answer.getId();
     }
 
+
+    public QuestionDTO getQuestion(Long id) throws QuestionNotFoundException {
+        Optional<Question> question = this.questionRepository.findById(id);
+
+        if (question.isEmpty()) {
+            throw new QuestionNotFoundException("Questão não encontrada!");
+        }
+
+        return this.questionMapper.convertToQuestionDTO(question.get());
+    }
+
 }

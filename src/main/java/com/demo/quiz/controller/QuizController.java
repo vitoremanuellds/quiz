@@ -10,11 +10,14 @@ import com.demo.quiz.dto.AnswerDTO;
 import com.demo.quiz.dto.NewQuestionDTO;
 import com.demo.quiz.dto.QuizDTO;
 import com.demo.quiz.dto.NewQuizDTO;
+import com.demo.quiz.dto.QuestionDTO;
 import com.demo.quiz.exceptions.QuestionNotFoundException;
 import com.demo.quiz.exceptions.QuizNotFoundException;
 import com.demo.quiz.services.QuizService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,6 +38,7 @@ public class QuizController {
 
 
     @PostMapping
+    @ApiOperation(value = "Cria um novo Quiz.")
     public ResponseEntity<?> createQuiz(@RequestBody NewQuizDTO newQuizDTO) {
 
         Long id = this.quizService.createQuiz(newQuizDTO);
@@ -44,6 +48,7 @@ public class QuizController {
 
 
     @PatchMapping(value = "/{id}")
+    @ApiOperation(value = "Adiciona uma Question a um Quiz através do ID do Quiz.")
     public ResponseEntity<?> addQuestionToQuiz(@PathVariable("id") Long quizId, @RequestBody NewQuestionDTO questionDTO) {
 
         try {
@@ -60,6 +65,7 @@ public class QuizController {
 
 
     @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Recupera um Quiz através do seu ID.")
     public ResponseEntity<?> getQuiz(@PathVariable("id") Long id) {
         
         try {
@@ -76,6 +82,7 @@ public class QuizController {
 
     
     @PatchMapping(value = "/question/{id}")
+    @ApiOperation(value = "Adiciona uma Answer a uma Question através do ID da Question.")
     public ResponseEntity<?> addAnswerToQuestion(@PathVariable("id") Long questionId, @RequestBody AnswerDTO answerDTO) {
 
         try {
@@ -88,6 +95,16 @@ public class QuizController {
     }
 
 
+    @GetMapping(value = "/question/{id}")
+    @ApiOperation(value = "Recupera uma Question através do seu ID.")
+    public ResponseEntity<?> getQuestion(@PathVariable("id") Long id) {
 
+        try {
+            return new ResponseEntity<QuestionDTO>(this.quizService.getQuestion(id), HttpStatus.OK);
+        } catch (QuestionNotFoundException e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
 }
