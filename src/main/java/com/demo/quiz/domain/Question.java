@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -49,14 +50,9 @@ public class Question {
     @Column(name = "weight_of_question")
     private double weightOfQuestion;
 
-    @Column(name = "right_answer")
-    private String rightAnswer;
-    
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    //@CollectionTable(name = "questions")
-    @Column(name = "wrong_answer")
-    private List<String> wrongAnswers;
+    @OneToMany(fetch = FetchType.EAGER)
+    @Column(name = "choices")
+    private List<Answer> choices;
 
     public Question(String stem, int numberOfCorrectAnswers, boolean allowSelectionOfMultipleChoices, boolean onlyRightWithCompleteAnswers, double weightOfQuestion) {
 
@@ -66,32 +62,19 @@ public class Question {
         this.onlyRightWithCompleteAnswers = onlyRightWithCompleteAnswers;
         this.weightOfQuestion = weightOfQuestion;
 
-        this.rightAnswers = new ArrayList<String>();
-        this.wrongAnswers = new ArrayList<String>();
+        this.choices = new ArrayList<Answer>();
 
     }
 
 
-    public boolean addRightAnswer(String answer) {
-        return this.rightAnswers.add(answer);
+    public boolean addAnswer(Answer answer) {
+        return this.choices.add(answer);
     }
 
 
-    public boolean addWrongAnswer(String answer) {
-        return this.wrongAnswers.add(answer);
+    public boolean delAnswer(Answer answer) {
+        return this.choices.remove(answer);
     }
-
-
-    public boolean delRightAnswer(String answer) {
-        return this.rightAnswers.removeIf(a -> a.equals(answer));
-    }
-
-
-    public boolean delWrongAnswer(String answer) {
-        return this.wrongAnswers.removeIf(a -> a.equals(answer));
-    }
-
-
     
 
 }

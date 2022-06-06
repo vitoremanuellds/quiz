@@ -3,6 +3,8 @@ package com.demo.quiz.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.demo.quiz.domain.Answer;
+
 import lombok.Data;
 
 @Data
@@ -18,8 +20,6 @@ public class QuestionDTO {
 
     private double weightOfQuestion;
 
-    private String rightAnswer;
-
-    private List<String> wrongAnswers;
+    //private List<Answer> choices;
 
 }

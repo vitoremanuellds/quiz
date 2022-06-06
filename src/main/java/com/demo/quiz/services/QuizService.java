@@ -5,8 +5,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.demo.quiz.domain.Answer;
 import com.demo.quiz.domain.Question;
 import com.demo.quiz.domain.Quiz;
+import com.demo.quiz.exceptions.QuestionNotFoundException;
 import com.demo.quiz.exceptions.QuizNotFoundException;
 import com.demo.quiz.repositories.QuestionRepository;
 import com.demo.quiz.repositories.QuizRepository;
@@ -56,6 +58,19 @@ public class QuizService {
         }
 
         return quiz.get();
+    }
+
+    public Long addAnswerToQuestion(Long questionId, Answer answer) throws QuestionNotFoundException {
+
+        Optional<Question> question = this.questionRepository.findById(questionId);
+
+        if (question.isEmpty()) {
+            throw new QuestionNotFoundException("Question não encontrada!");
+        }
+
+        question.get().addAnswer(answer);
+
+        return answer.getId();
     }
 
 }
