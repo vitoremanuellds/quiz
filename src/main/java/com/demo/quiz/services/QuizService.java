@@ -1,11 +1,12 @@
 package com.demo.quiz.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.demo.quiz.domain.Question;
 import com.demo.quiz.domain.Quiz;
-import com.demo.quiz.dto.NewQuestionDTO;
 import com.demo.quiz.exceptions.QuizNotFoundException;
 import com.demo.quiz.repositories.QuestionRepository;
 import com.demo.quiz.repositories.QuizRepository;
@@ -22,15 +23,17 @@ public class QuizService {
 
     public Long addQuestionToQuiz(Long quizId, Question question) throws QuizNotFoundException {
         
-        if (this.quizRepository.findById(quizId).isEmpty()) {
+        Optional<Quiz> quizOp = this.quizRepository.findById(quizId);
+
+        if (quizOp.isEmpty()) {
             throw new QuizNotFoundException("Quiz não encontrado!");
         }
 
-        Quiz quiz = this.quizRepository.findById(quizId).get();
+        Quiz quiz = quizOp.get();
 
         this.questionRepository.save(question);
 
-        quiz.addQuestion(question.getId());
+        quiz.addQuestion(question);
 
         this.quizRepository.save(quiz);
 
@@ -38,12 +41,21 @@ public class QuizService {
     }
 
 
-    public Long createQuiz(String title) {
-        Quiz quiz = new Quiz(title);
+    public Long createQuiz(Quiz quiz) {
 
         this.quizRepository.save(quiz);
 
         return quiz.getId();
+    }
+
+    public Quiz getQuiz(Long quizId) throws QuizNotFoundException {
+        Optional<Quiz> quiz = this.quizRepository.findById(quizId);
+
+        if (quiz.isEmpty()) {
+            throw new QuizNotFoundException("Quiz não encontrado!");
+        }
+
+        return quiz.get();
     }
 
 }

@@ -9,6 +9,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,16 +49,14 @@ public class Question {
     @Column(name = "weight_of_question")
     private double weightOfQuestion;
 
-    @ElementCollection
-    @CollectionTable(name = "right_answers", joinColumns = @JoinColumn(name = "question_id"))
     @Column(name = "right_answer")
-    private Set<String> rightAnswers;
+    private String rightAnswer;
     
 
-    @ElementCollection
-    @CollectionTable(name = "wrong_answers", joinColumns = @JoinColumn(name = "question_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    //@CollectionTable(name = "questions")
     @Column(name = "wrong_answer")
-    private Set<String> wrongAnswers;
+    private List<String> wrongAnswers;
 
     public Question(String stem, int numberOfCorrectAnswers, boolean allowSelectionOfMultipleChoices, boolean onlyRightWithCompleteAnswers, double weightOfQuestion) {
 
@@ -67,8 +66,8 @@ public class Question {
         this.onlyRightWithCompleteAnswers = onlyRightWithCompleteAnswers;
         this.weightOfQuestion = weightOfQuestion;
 
-        this.rightAnswers = new HashSet<String>();
-        this.wrongAnswers = new HashSet<String>();
+        this.rightAnswers = new ArrayList<String>();
+        this.wrongAnswers = new ArrayList<String>();
 
     }
 

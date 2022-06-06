@@ -1,13 +1,12 @@
 package com.demo.quiz.dto;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
 public class QuestionDTO {
-
-    private Long id;
     
     private String stem;
 
@@ -19,8 +18,8 @@ public class QuestionDTO {
 
     private double weightOfQuestion;
 
-    private Set<String> rightAnswers;
+    private String rightAnswer;
 
-    private Set<String> wrongAnswers;
+    private List<String> wrongAnswers;
 
 }

@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.demo.quiz.domain.Question;
-import com.demo.quiz.dto.NewQuestionDTO;
 import com.demo.quiz.dto.QuestionDTO;
 
 public class QuestionMapper {
@@ -12,18 +11,18 @@ public class QuestionMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Question convertFromNewQuestionDTO(NewQuestionDTO newQuestionDTO) {
+    public Question convertFromNewQuestionDTO(QuestionDTO questionDTO) {
         
-        Question question = modelMapper.map(newQuestionDTO, Question.class);
+        Question question = modelMapper.map(questionDTO, Question.class);
 
         return question;
 
     }
 
-    public NewQuestionDTO convertToNewQuestionDTO(Question question) {
-        NewQuestionDTO newQuestionDTO = modelMapper.map(question, NewQuestionDTO.class);
+    public QuestionDTO convertToNewQuestionDTO(Question question) {
+        QuestionDTO questionDTO = modelMapper.map(question, QuestionDTO.class);
 
-        return newQuestionDTO;
+        return questionDTO;
     }
 
 }
