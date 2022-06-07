@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.demo.quiz.domain.Quiz;
 import com.demo.quiz.dto.NewQuizDTO;
 import com.demo.quiz.dto.QuizDTO;
+import com.demo.quiz.dto.QuizToBeAnsweredDTO;
 
 public class QuizMapper {
     
@@ -53,6 +54,16 @@ public class QuizMapper {
         quiz.setQuestions(quizDTO.getQuestions().stream().map(questionMapper::convertFromQuestionDTO).collect(Collectors.toSet()));
 
         return quiz;
+    }
+
+
+    public QuizToBeAnsweredDTO convertToQuizToBeAnsweredDTO(Quiz quiz) {
+        QuizToBeAnsweredDTO quizToBeAnsweredDTO = new QuizToBeAnsweredDTO();
+
+        quizToBeAnsweredDTO.setTitle(quiz.getTitle());
+        quizToBeAnsweredDTO.setQuestions(quiz.getQuestions().stream().map(questionMapper::convertToQuestionToBeAnswered).collect(Collectors.toSet()));
+
+        return quizToBeAnsweredDTO;
     }
 
 }

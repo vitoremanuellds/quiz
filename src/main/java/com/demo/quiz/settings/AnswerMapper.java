@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.demo.quiz.domain.Answer;
 import com.demo.quiz.dto.AnswerDTO;
+import com.demo.quiz.dto.ChoiceDTO;
 
 public class AnswerMapper {
     
@@ -22,6 +23,13 @@ public class AnswerMapper {
         Answer answer = modelMapper.map(answerDTO, Answer.class);
 
         return answer;
+    }
+
+
+    public ChoiceDTO convertToChoiceDTO(Answer answer) {
+        ChoiceDTO choiceDTO = modelMapper.map(answer, ChoiceDTO.class);
+
+        return choiceDTO;
     }
 
 }

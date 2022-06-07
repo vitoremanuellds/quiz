@@ -10,6 +10,7 @@ import com.demo.quiz.domain.Question;
 import com.demo.quiz.domain.Quiz;
 import com.demo.quiz.dto.QuestionDTO;
 import com.demo.quiz.dto.QuizDTO;
+import com.demo.quiz.dto.QuizToBeAnsweredDTO;
 import com.demo.quiz.dto.AnswerDTO;
 import com.demo.quiz.dto.NewQuestionDTO;
 import com.demo.quiz.dto.NewQuizDTO;
@@ -77,13 +78,7 @@ public class QuizService {
 
 
     public QuizDTO getQuiz(Long quizId) throws QuizNotFoundException {
-        Optional<Quiz> quiz = this.quizRepository.findById(quizId);
-
-        if (quiz.isEmpty()) {
-            throw new QuizNotFoundException("Quiz não encontrado!");
-        }
-
-        return this.quizMapper.convertToQuizDTO(quiz.get());
+        return this.quizMapper.convertToQuizDTO(this.getQuizFromRepository(quizId));
     }
 
 
@@ -112,6 +107,22 @@ public class QuizService {
         }
 
         return this.questionMapper.convertToQuestionDTO(question.get());
+    }
+
+
+    public QuizToBeAnsweredDTO getQuizToBeAnswered(Long quizId) throws QuizNotFoundException {
+        return this.quizMapper.convertToQuizToBeAnsweredDTO(this.getQuizFromRepository(quizId));
+    }
+
+
+    private Quiz getQuizFromRepository(Long quizId) throws QuizNotFoundException {
+        Optional<Quiz> quiz = this.quizRepository.findById(quizId);
+
+        if (quiz.isEmpty()) {
+            throw new QuizNotFoundException("Quiz não encontrado!");
+        }
+
+        return quiz.get();
     }
 
 }

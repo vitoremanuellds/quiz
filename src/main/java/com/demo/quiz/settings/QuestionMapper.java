@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.demo.quiz.domain.Question;
 import com.demo.quiz.dto.NewQuestionDTO;
 import com.demo.quiz.dto.QuestionDTO;
+import com.demo.quiz.dto.QuestionToBeAnsweredDTO;
 
 public class QuestionMapper {
 
@@ -58,6 +59,17 @@ public class QuestionMapper {
         questionDTO.setAnswers(question.getAnswers().stream().map(answerMapper::convertToAnswerDTO).collect(Collectors.toSet()));
 
         return questionDTO;
+    }
+
+
+    public QuestionToBeAnsweredDTO convertToQuestionToBeAnswered(Question question) {
+        QuestionToBeAnsweredDTO questionToBeAnsweredDTO = new QuestionToBeAnsweredDTO();
+
+        questionToBeAnsweredDTO.setId(question.getId());
+        questionToBeAnsweredDTO.setStem(question.getStem());
+        questionToBeAnsweredDTO.setChoices(question.getAnswers().stream().map(answerMapper::convertToChoiceDTO).collect(Collectors.toSet()));
+
+        return questionToBeAnsweredDTO;
     }
 
 }

@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.quiz.dto.AnswerDTO;
 import com.demo.quiz.dto.NewQuestionDTO;
 import com.demo.quiz.dto.QuizDTO;
+import com.demo.quiz.dto.QuizToBeAnsweredDTO;
 import com.demo.quiz.dto.NewQuizDTO;
 import com.demo.quiz.dto.QuestionDTO;
 import com.demo.quiz.exceptions.QuestionNotFoundException;
@@ -18,6 +20,7 @@ import com.demo.quiz.services.QuizService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.HttpMethod;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -66,11 +69,14 @@ public class QuizController {
 
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "Recupera um Quiz através do seu ID.")
-    public ResponseEntity<?> getQuiz(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getQuiz(@PathVariable("id") Long id, @RequestParam(name = "toBeAnswered", defaultValue = "false") String toBeAnswered) {
         
         try {
-
-            return new ResponseEntity<QuizDTO>(this.quizService.getQuiz(id), HttpStatus.OK);
+            if (toBeAnswered.equals("false")) {
+                return new ResponseEntity<QuizDTO>(this.quizService.getQuiz(id), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<QuizToBeAnsweredDTO>(this.quizService.getQuizToBeAnswered(id), HttpStatus.OK);
+            }
         
         } catch (QuizNotFoundException e) {
         
@@ -106,5 +112,6 @@ public class QuizController {
         }
 
     }
+
 
 }
